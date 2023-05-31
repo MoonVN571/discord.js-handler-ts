@@ -1,0 +1,39 @@
+{
+  "name": "discord.js-handler-ts",
+  "version": "1.0.0",
+  "description": "Discord.js handler written in TypeScript",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node ./dist/index.js",
+    "build": "tsc --project tsconfig.json",
+    "lint": "eslint . --ext .ts --fix"
+  },
+  "keywords": [],
+  "author": "Moon",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.0.1",
+    "signale": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/signale": "^1.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.39.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "signale": {
+    "displayScope": true,
+    "displayBadge": true,
+    "displayDate": true,
+    "displayFilename": true,
+    "displayLabel": true,
+    "displayTimestamp": true,
+    "underlineLabel": true
+  }
+}
