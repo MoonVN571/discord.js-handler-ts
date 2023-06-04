@@ -9,8 +9,7 @@ import {
 	User,
 	ChatInputCommandInteraction,
 	AutocompleteInteraction,
-	ClientUser,
-	Collection
+	ClientUser
 } from "discord.js";
 import { Bot } from "./Bot";
 import emojis from "../assets/emojis.json";
@@ -36,7 +35,6 @@ export default class Context {
 	public msg: any;
 
 	public utils: Utils;
-	public speaking: Collection<string, any> = new Collection();
 
 	public readonly emotes = emojis;
 	public config = config;

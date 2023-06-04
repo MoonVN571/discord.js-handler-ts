@@ -1,7 +1,8 @@
 import Context from "../../struct/Context";
 import { readdirSync } from "fs";
+import { Command, CommandData } from "../../struct/Commands";
 
-export const data = {
+export const data: Command = {
 	name: "help",
 	description: "bot commands list"
 };
@@ -13,9 +14,8 @@ export async function execute(ctx: Context, args: string[]) {
 	await Promise.all(readdirSync("./src/commands").map(async (category: string) => {
 		const cmdList: string[] = [];
 		if (category == "developer") return;
-		await Promise.all(readdirSync(`./${ctx.client.dev ? "src" : "dist"}/commands/${category}`).map(async (cmdName: string) => {
-			const cmd = await import(`../${category}/${cmdName}`);
-			if (cmd.hide) return;
+		await Promise.all(readdirSync(`./src/commands/${category}`).map(async (cmdName: string) => {
+			const cmd: CommandData = await import(`../${category}/${cmdName.split(".")[0]}`);
 			cmdList.push(cmd.data.name);
 		}));
 		if (cmdList.length === 0) return;

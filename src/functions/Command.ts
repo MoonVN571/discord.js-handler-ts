@@ -38,13 +38,6 @@ export class Commands {
 			}],
 			ephemeral: true
 		});
-		const needSetup = () => ctx.sendMessage({
-			embeds: [{
-				description: "Server chưa thiết lập roles.",
-				color: ctx.config.color.error
-			}],
-			ephemeral: true
-		});
 		if (type == "prefix" && cmd.data.command?.slash) return false;
 		if (!isDeveloper && cmd.data.whitelist?.developer) {
 			noPerm();
@@ -55,8 +48,9 @@ export class Commands {
 
 	public async sendCmdLog(ctx: Context, msg: string | object): Promise<void> {
 		this.client.logger.info(`[${ctx.guild?.name}][${ctx.channel?.name}] - ${ctx.author?.tag} (${ctx.author?.id}) : ${msg} `);
-		if (ctx.client.dev) return;
+		if (ctx.client.dev || !ctx.config.logs.enable) return;
 
+		// Send command info to dev server
 		const post = () => axios({ /* eslint-disable no-undef */
 			method: "post",
 			url: process.env.LOGS_URL,
@@ -67,11 +61,11 @@ export class Commands {
 				send_to: ctx.client.config.logs.commands,
 				dev: ctx.client.dev,
 				log_level: "commands",
-				bot_user: { id: ctx.client.user?.id, tag: ctx.client.user?.tag },
-				user: { id: ctx.author?.id, tag: ctx.author?.tag },
-				channel: { id: ctx.channel?.id, name: ctx.channel?.name },
-				guild: { id: ctx.guild?.id, name: ctx.guild?.name, iconURL: ctx.guild?.iconURL() },
-				msg: `${msg} `,
+				bot_user: { id: ctx.client.user.id, tag: ctx.client.user.tag },
+				user: { id: ctx.author.id, tag: ctx.author.tag },
+				channel: { id: ctx.channel.id, name: ctx.channel.name },
+				guild: { id: ctx.guild?.id, name: ctx.guild.name, iconURL: ctx.guild?.iconURL() },
+				msg,
 				time: Date.now()
 			}
 		}).catch(err => this.client.logger.error(err.message));

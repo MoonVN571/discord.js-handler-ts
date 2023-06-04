@@ -1,6 +1,7 @@
+import { Command } from "../../struct/Commands";
 import Context from "../../struct/Context";
 
-export const data = {
+export const data: Command = {
 	name: "ping",
 	description: "bot latency ms"
 };

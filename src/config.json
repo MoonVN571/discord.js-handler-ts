@@ -12,7 +12,8 @@
         ""
     ],
     "logs": {
-        "commands": "1110202096743104552",
-        "error": "1110202126208081951"
+        "enable": false,
+        "commands": "",
+        "error": ""
     }
 }
