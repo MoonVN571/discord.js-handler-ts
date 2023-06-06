@@ -10,10 +10,5 @@
     },
     "adminServers": [
         ""
-    ],
-    "logs": {
-        "enable": false,
-        "commands": "",
-        "error": ""
-    }
+    ]
 }

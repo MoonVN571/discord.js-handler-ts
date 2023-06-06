@@ -25,7 +25,7 @@ export async function execute(client: Bot, interaction: Interaction) {
 		const cmd: CommandData = client.commands.get(interaction.commandName);
 		if (!cmd) return;
 
-		client.cmds.sendCmdLog(ctx, interaction);
+		client.cmds.sendCmdLog(ctx);
 		if (!await client.cmds.canUserRunCommand(ctx, cmd)) return;
 		cmd.execute(ctx, ctx.args);
 	}
