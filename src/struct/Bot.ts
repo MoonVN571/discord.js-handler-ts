@@ -13,8 +13,7 @@ import { Commands } from "../functions/Command";
 import { Utils } from "../functions/Utils";
 
 export class Bot extends Client {
-	/* eslint-disable @typescript-eslint/no-explicit-any */
-	public commands: Collection<string, any> = new Collection();
+	public commands: Collection<string, CommandData> = new Collection();
 	public logger: Logger = new Logger();
 
 	public dev = process.env.NODE_ENV == "development";
@@ -27,7 +26,6 @@ export class Bot extends Client {
 	public async start(): Promise<string> {
 		this.loadCommands();
 		this.loadEvents();
-		/* eslint-disable no-undef */
 		process.on("uncaughtException", (error) => {
 			this.logger.error(error);
 		});
@@ -35,26 +33,24 @@ export class Bot extends Client {
 	}
 
 	public async loadCommands(): Promise<void> {
-		const categories: string[] = readdirSync("./src/commands");
-		await Promise.all(categories.map(async (category: string) => {
+		const categories = readdirSync("./src/commands");
+		categories.map((category: "utils" | "developer") => {
 			const commands = readdirSync("./src/commands/" + category);
-			await Promise.all(commands.map(async (cmd: string) => {
-				let cmdName = cmd.split(".")[0];
-				if (!this.dev) cmdName = cmdName + ".js";
+			commands.forEach(async cmd => {
+				const cmdName = cmd.split(".")[0];
 				const data: CommandData = await import(`../commands/${category}/${cmdName}`);
 				if (!data) return;
-				const command: any = { ...data, category };
-				this.commands.set(data.data.name, command);
-			}));
-		}));
+				data.data.category = category;
+				this.commands.set(data.data.name, data);
+			});
+		});
 	}
 
 	public loadEvents(): void {
-		readdirSync("./src/events/Bot").forEach(async (event: any) => {
+		readdirSync("./src/events/Bot").forEach(async event => {
 			const eventName = event.split(".")[0];
-			const { execute } = await import(`../events/Bot/${eventName}`);
-			if (typeof execute !== "function") return;
-			this.on(eventName, (...p) => execute(this, ...p));
+			const data = await import(`../events/Bot/${eventName}`);
+			this.on(eventName, (...p) => data.execute(this, ...p));
 		});
 	}
 }

@@ -48,43 +48,32 @@ export class Commands {
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	public async sendCmdLog(ctx: Context, msg?: string): Promise<void> {
 		if (!msg) msg = this.getSlashData(ctx.interaction.options.data as any);
-		this.client.logger.info(`[${ctx.guild?.name}][${ctx.channel?.name}] - ${ctx.author?.tag} (${ctx.author?.id}) : ${msg} `);
+		this.client.logger.info(`[${ctx.guild?.name}] [${ctx.channel?.name}] - ${ctx.author?.tag} (${ctx.author?.id}) : ${msg}`);
 	}
 
 	private getSlashData(data: any[]) {
-		let result = "";
-
-		data.forEach((item: any) => {
-			result += item.name;
+		const result = data.reduce((accumulator: string, item: any) => {
+			accumulator += item.name;
 
 			if (item.options) {
 				item.options.forEach((option: any) => {
-					result += " " + option.name;
+					accumulator += " " + option.name;
 
-					if (option.value) {
-						result += ":" + option.value;
-					}
+					if (option.value) accumulator += ":" + option.value;
 
-					if (option.options) {
-						option.options.forEach((nestedOption: any) => {
-							result += " " + nestedOption.name;
-
-							if (nestedOption.value) {
-								result += ":" + nestedOption.value;
-							}
-						});
-					}
+					if (option.options) option.options.forEach((nestedOption: any) => {
+						accumulator += " " + nestedOption.name;
+						if (nestedOption.value) accumulator += ":" + nestedOption.value;
+					});
 				});
 			} else if (item.value) {
-				result += ":" + item.value;
+				accumulator += ":" + item.value;
 			}
 
-			result += " ";
-		});
+			accumulator += " ";
 
-		// Xóa khoảng trắng cuối cùng
-		result = result.trim();
-
+			return accumulator;
+		}, "");
 		return result;
 	}
 }

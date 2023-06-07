@@ -7,8 +7,5 @@
         "default": 3092790,
         "error": 3092790,
         "success": 3092790
-    },
-    "adminServers": [
-        ""
-    ]
+    }
 }

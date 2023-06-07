@@ -13,7 +13,6 @@ export async function execute(ctx: Context, args: string[]) {
 
 	await Promise.all(readdirSync("./src/commands").map(async (category: string) => {
 		const cmdList: string[] = [];
-		if (category == "developer") return;
 		await Promise.all(readdirSync(`./src/commands/${category}`).map(async (cmdName: string) => {
 			const cmd: CommandData = await import(`../${category}/${cmdName.split(".")[0]}`);
 			cmdList.push(cmd.data.name);

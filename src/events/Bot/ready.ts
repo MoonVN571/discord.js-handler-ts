@@ -6,11 +6,9 @@ import { Bot } from "../../struct/Bot";
 export async function execute(client: Bot) {
 	client.logger.start("Bot started!");
 
-	client.cmds.registerSlash();
+	client.application.commands.set(client.commands.map(cmd => cmd.data));
 
-	/* eslint-disable no-undef */
-	await mongoose.connect(process.env.MONGO_STRING as string).then(() => {
+	await mongoose.connect(process.env.MONGO_STRING).then(() => {
 		client.logger.start("Connected to MongoDB!");
 	});
-
 }

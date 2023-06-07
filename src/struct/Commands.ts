@@ -17,7 +17,7 @@ export declare interface Command {
     };
     whitelist?: Whitelist;
     defaultMemberPermissions?: PermissionsString[];
-    category?: "booking" | "developer" | "moderator" | "supporter" | "utils";
+    category?: "developer" | "utils";
 }
 
 export interface Whitelist {
@@ -29,8 +29,7 @@ export interface Whitelist {
 
 export declare interface CommandData {
     data: Command,
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    execute: (ctx: Context, args: string[]) => any,
-    autoComplete?: (interaction: AutocompleteInteraction) => any,
-    buttonRun: (interaction: ButtonInteraction) => any
+    execute: (ctx: Context, args: string[]) => void,
+    autoComplete?: (interaction: AutocompleteInteraction) => void,
+    buttonRun: (interaction: ButtonInteraction) => void
 }

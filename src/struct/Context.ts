@@ -65,18 +65,22 @@ export default class Context {
 			this.args = args;
 		}
 	}
-	public async getMember(userId: any): Promise<any> {
-		const regex = /^<@!?(\d+)>$/; // Biểu thức chính quy để tìm ID trong mention
+	public sendError(err: string) {
+		const msg = "Thông tin lỗi này đã được gửi đến dev, nếu bạn nghĩ đây là lỗi vui lòng liên hệ.\n\n";
+		if (this.deferred) {
+			this.sendFollowUp(msg + err);
+		} else if (this.message) {
+			this.sendMessage(msg + err);
+		}
+	}
+	public async getMember(userId: string): Promise<any> {
+		const regex = /^<@!?(\d+)>$/;
 		const match = userId.match(regex);
 		if (match) userId = match[1];
 		return new Promise((res) => {
-			/* eslint-disable @typescript-eslint/no-unused-vars */
 			const member = this.guild?.members.cache.get(userId);
 			if (member) res(member);
-			else this.guild?.members.fetch(userId as string).then(res).catch(err => {
-				// this.client.logger.error("Fetch member:", err);
-				res(undefined);
-			});
+			else this.guild?.members.fetch(userId as string).then(res).catch(() => res(undefined));
 		});
 	}
 	public async sendMessage(content: any) {
