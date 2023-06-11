@@ -5,7 +5,7 @@ import { Bot } from "../struct/Bot";
 import Context from "../struct/Context";
 
 import { Command, CommandData } from "../struct/Commands";
-import { GuildMember } from "discord.js";
+import { CacheType, CommandInteractionOption, GuildMember } from "discord.js";
 
 export class Commands {
 	public client: Bot;
@@ -13,23 +13,9 @@ export class Commands {
 		this.client = client;
 	}
 
-	public registerSlash(guildId?: string) {
-		const guild = this.client.guilds.cache.get(guildId as string);
-		const commands: Command[] = [];
-		this.client.commands.forEach((cmd: CommandData) => {
-			if (cmd.data.command?.prefix) return;
-			commands.push(cmd.data as Command);
-		});
-		if (guild) return guild.commands.set(commands);
-		this.client.application?.commands.set([]);
-		this.client.guilds.cache.forEach(guild => {
-			guild.commands.set(commands);
-		});
-	}
-
 	public async canUserRunCommand(ctx: Context, cmd?: CommandData, type?: "prefix" | undefined): Promise<boolean> {
 		const isDeveloper: boolean = this.client.config.developers.indexOf(ctx.author?.id as string) > -1;
-		const hasRole = async (roleId: string) => (ctx.member as GuildMember).roles.cache.has(roleId);
+		const hasRole = (roleId: string) => (ctx.member as GuildMember).roles.cache.has(roleId);
 		const noPerm = () => ctx.sendMessage({
 			embeds: [{
 				description: "Bạn không thể dùng lệnh này!",
@@ -37,26 +23,38 @@ export class Commands {
 			}],
 			ephemeral: true
 		});
-		if (type == "prefix" && cmd.data.command?.slash) return false;
-		if (!isDeveloper && cmd.data.whitelist?.developer) {
-			noPerm();
-			return false;
-		}
-		return true;
+		const { whitelist, command } = cmd.data;
+		if (isDeveloper && whitelist?.developer)
+			return true;
+		if (type == "prefix" && !command?.slash) return true;
+		if (!whitelist) return true;
+		noPerm();
+		return false;
 	}
 
-	/* eslint-disable @typescript-eslint/no-explicit-any */
 	public async sendCmdLog(ctx: Context, msg?: string): Promise<void> {
-		if (!msg) msg = this.getSlashData(ctx.interaction.options.data as any);
-		this.client.logger.info(`[${ctx.guild?.name}] [${ctx.channel?.name}] - ${ctx.author?.tag} (${ctx.author?.id}) : ${msg}`);
+		if (!msg) msg = `/${ctx.interaction.commandName} ${this.getSlashData(ctx.interaction.options.data.slice())}`;
+		const username = `${ctx.author.tag.endsWith("#0") ? ctx.author.username : ctx.author.tag}`;
+		this.client.logger.info(`[${ctx.guild?.name}] [${ctx.channel?.name}] - ${username} (${ctx.author?.id}) : ${msg}`);
+		/*
+		const space = "====================================";
+		this.client.logger.info(`${space}`);
+		this.client.logger.info(`Server: ${ctx.guild?.name}`);
+		this.client.logger.info(`Channel:${ctx.channel?.name}`);
+		this.client.logger.info(`Username: ${username}`);
+		this.client.logger.info(`UserId: ${ctx.author?.id}`);
+		this.client.logger.info(``);
+		this.client.logger.info(`${msg}`);
+		this.client.logger.info(`${space}`);
+		*/
 	}
 
-	private getSlashData(data: any[]) {
-		const result = data.reduce((accumulator: string, item: any) => {
+	private getSlashData(data: CommandInteractionOption<CacheType>[]) {
+		const result = data.reduce((accumulator: string, item) => {
 			accumulator += item.name;
 
 			if (item.options) {
-				item.options.forEach((option: any) => {
+				item.options.forEach(option => {
 					accumulator += " " + option.name;
 
 					if (option.value) accumulator += ":" + option.value;

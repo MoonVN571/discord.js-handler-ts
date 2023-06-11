@@ -22,7 +22,7 @@ export async function execute(client: Bot, interaction: Interaction) {
 		const ctx = new Context(interaction, interaction.options.data as any);
 		ctx.setArgs(interaction.options.data as any);
 
-		const cmd: CommandData = client.commands.get(interaction.commandName);
+		const cmd: CommandData = client.commands.get(interaction.commandName + (client.dev ? "dev" : ""));
 		if (!cmd) return;
 
 		client.cmds.sendCmdLog(ctx);

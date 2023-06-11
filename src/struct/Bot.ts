@@ -36,12 +36,12 @@ export class Bot extends Client {
 		const categories = readdirSync("./src/commands");
 		categories.map((category: "utils" | "developer") => {
 			const commands = readdirSync("./src/commands/" + category);
-			commands.forEach(async cmd => {
-				const cmdName = cmd.split(".")[0];
-				const data: CommandData = await import(`../commands/${category}/${cmdName}`);
-				if (!data) return;
-				data.data.category = category;
-				this.commands.set(data.data.name, data);
+			commands.forEach(async cmdFile => {
+				const cmdName = cmdFile.split(".")[0];
+				const cmd: CommandData = await import(`../commands/${category}/${cmdName}`);
+				cmd.data.category = category;
+				if (this.dev) cmd.data.name = `${cmdName}dev`;
+				this.commands.set(cmd.data.name, cmd);
 			});
 		});
 	}

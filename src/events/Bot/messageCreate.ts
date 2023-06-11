@@ -6,13 +6,13 @@ import Context from "../../struct/Context";
 export async function execute(client: Bot, message: Message) {
 	if (message.author.bot) return;
 
-	const prefix: string = client.config.prefix;
+	const prefix: string = (client.dev ? "dev" : "") + client.config.prefix;
 	if (!message.content.toLowerCase().startsWith(prefix)) {
 		return;
 	}
 
 	const args: string[] = message.content.trim().slice(prefix.length).split(" ");
-	const cmdName: string = args.shift()?.toLowerCase();
+	const cmdName: string = args.shift().toLowerCase();
 
 	const cmd: CommandData = client.commands.get(cmdName)
 		|| client.commands.find((cmd: CommandData) => cmd.data.aliases && cmd.data.aliases.indexOf(cmdName) > -1);
