@@ -5,15 +5,16 @@ export class Utils {
 	constructor(client: Bot) {
 		this.client = client;
 	}
-	public static random(min: number, max: number): number {
+
+	public random(min: number, max: number): number {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
 
-	public static formatNum(number: number): string {
+	public formatNum(number: number): string {
 		return Intl.NumberFormat().format(number);
 	}
 
-	public static sleep(time: number): Promise<void> {
+	public sleep(time: number): Promise<void> {
 		return new Promise((res) => setTimeout(res, time));
 	}
 

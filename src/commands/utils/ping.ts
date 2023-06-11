@@ -3,9 +3,9 @@ import Context from "../../struct/Context";
 
 export const data: Command = {
 	name: "ping",
-	description: "bot latency ms"
+	description: "bot delay"
 };
-/* eslint-disable @typescript-eslint/no-unused-vars */
-export async function execute(ctx: Context, args: string[]) {
+
+export async function execute(ctx: Context) {
 	ctx.sendMessage(`${ctx.client.ws.ping}ms`);
 }

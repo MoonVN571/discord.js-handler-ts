@@ -4,18 +4,18 @@ import Context from "../../struct/Context";
 
 export const data: Command = {
 	name: "eval",
-	description: "run a code",
+	description: "đoạn code",
 	options: [{
 		name: "code",
-		description: "execute a code",
+		description: "thực thi một đoạn code",
 		type: ApplicationCommandOptionType.String,
 		required: true
 	}],
 	whitelist: { developer: true }
 };
 
-export async function execute(ctx: Context, args: string[]) {
-	const str = args.join(" ");
+export async function execute(ctx: Context) {
+	const str = ctx.args.join(" ");
 	if (!str)
 		return ctx.sendMessage({
 			embeds: [{

@@ -13,8 +13,7 @@
     "strict": false
   },
   "include": [
-    "./src",
-    "config.json"
+    "./src"
   ],
   "exclude": [
     "node_modules"

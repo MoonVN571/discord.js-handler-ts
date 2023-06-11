@@ -23,7 +23,6 @@ export declare interface Command {
 export interface Whitelist {
     developer?: boolean;
     admin?: boolean;
-    adminJr?: boolean;
     guest?: boolean;
 }
 

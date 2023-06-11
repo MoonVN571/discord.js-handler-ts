@@ -17,10 +17,9 @@ export async function execute(client: Bot, interaction: Interaction) {
 		if (cmd) cmd.buttonRun(interaction);
 	}
 
-	/* eslint-disable @typescript-eslint/no-explicit-any */
 	if (interaction.isChatInputCommand()) {
-		const ctx = new Context(interaction, interaction.options.data as any);
-		ctx.setArgs(interaction.options.data as any);
+		const ctx = new Context(interaction, interaction.options.data.slice());
+		ctx.setArgs(interaction.options.data.slice());
 
 		const cmd: CommandData = client.commands.get(interaction.commandName + (client.dev ? "dev" : ""));
 		if (!cmd) return;

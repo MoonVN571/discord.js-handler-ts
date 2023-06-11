@@ -4,10 +4,10 @@ import { Command, CommandData } from "../../struct/Commands";
 
 export const data: Command = {
 	name: "help",
-	description: "bot commands list"
+	description: "list commands"
 };
-/* eslint-disable @typescript-eslint/no-unused-vars */
-export async function execute(ctx: Context, args: string[]) {
+
+export async function execute(ctx: Context) {
 	const fields: { name: string, value: string }[] = [];
 	await ctx.sendDeferMessage(false);
 
