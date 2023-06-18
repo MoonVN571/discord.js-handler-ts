@@ -67,7 +67,7 @@ export default class Context {
 	}
 
 	public sendError(err: string) {
-		const msg = "Thông tin lỗi này đã được gửi đến dev, nếu bạn nghĩ đây là lỗi vui lòng liên hệ. \n**Lỗi:**";
+		const msg = "Thông tin lỗi này đã được gửi đến dev, nếu bạn nghĩ đây là lỗi vui lòng liên hệ. \n**Lỗi:** ";
 		if (this.deferred) {
 			this.sendFollowUp(msg + err);
 		} else if (this.message) {
