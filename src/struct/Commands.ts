@@ -28,7 +28,7 @@ export interface Whitelist {
 
 export declare interface CommandData {
     data: Command,
-    execute: (ctx: Context, args: string[]) => void,
+    execute?: (ctx: Context, args: string[]) => void,
     autoComplete?: (interaction: AutocompleteInteraction) => void,
-    buttonRun: (interaction: ButtonInteraction) => void
+    buttonRun?: (interaction: ButtonInteraction) => void
 }

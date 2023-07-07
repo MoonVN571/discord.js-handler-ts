@@ -22,7 +22,7 @@ export class Commands {
 		const isSlashRun = !type;
 		const isSlashCmd = isSlashRun && cmd.data.command?.slash;
 		const isPrefixRun = !isSlashRun;
-		const isAdmin = (ctx.member as GuildMember).permissions.has('Administrator');
+		const isAdmin = (ctx.member as GuildMember).permissions.has("Administrator");
 
 		if (isSlashRun) {
 			if (!whitelist) return true;
