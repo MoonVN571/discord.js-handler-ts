@@ -33,9 +33,9 @@ export class Bot extends Client {
 	}
 
 	public async loadCommands(): Promise<void> {
-		const categories = readdirSync("./src/commands");
+		const categories = readdirSync((this.dev ? "./src" : "./src") + "/commands");
 		categories.map((category: "utils" | "developer") => {
-			const commands = readdirSync("./src/commands/" + category);
+			const commands = readdirSync((this.dev ? "./src" : "./src") + "/commands/" + category);
 			commands.forEach(async cmdFile => {
 				const cmdName = cmdFile.split(".")[0];
 				const cmd: CommandData = await import(`../commands/${category}/${cmdName}`);
@@ -47,7 +47,7 @@ export class Bot extends Client {
 	}
 
 	public loadEvents(): void {
-		readdirSync("./src/events/Bot").forEach(async event => {
+		readdirSync((this.dev ? "./src" : "./src") + "/events/Bot").forEach(async event => {
 			const eventName = event.split(".")[0];
 			const data = await import(`../events/Bot/${eventName}`);
 			this.on(eventName, (...p) => data.execute(this, ...p));
