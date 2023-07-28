@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.4.0",
-    "discord.js": "^14.11.0",
+    "discord.js": "^15.0.0-dev.1690416615-8f4256d.0",
     "dotenv": "^16.0.3",
     "mongoose": "^7.0.1",
     "signale": "^1.4.0"

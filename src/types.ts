@@ -4,9 +4,10 @@ import {
 	ButtonInteraction,
 	PermissionsString
 } from "discord.js";
-import Context from "./Context";
+import { Bot } from "./struct";
+import Context from "./struct/Context";
 
-export declare interface Command {
+export declare interface CommandData {
     name: string;
     description: string;
     options?: ApplicationCommandOption[];
@@ -15,20 +16,23 @@ export declare interface Command {
         slash?: boolean;
         prefix?: boolean;
     };
-    whitelist?: Whitelist;
+    whitelist?: CommandWhitelist;
     defaultMemberPermissions?: PermissionsString[];
-    category?: "developer" | "utils";
+    category?: string;
 }
 
-export interface Whitelist {
+export interface CommandWhitelist {
     developer?: boolean;
     admin?: boolean;
-    guest?: boolean;
 }
 
-export declare interface CommandData {
-    data: Command,
+export declare interface CommandOptions {
+    data: CommandData,
     execute?: (ctx: Context, args: string[]) => void,
     autoComplete?: (interaction: AutocompleteInteraction) => void,
     buttonRun?: (interaction: ButtonInteraction) => void
+}
+
+export declare interface Event {
+    execute?: (client: Bot, ...args: string[]) => void
 }

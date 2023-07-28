@@ -17,8 +17,4 @@ export class Utils {
 	public sleep(time: number): Promise<void> {
 		return new Promise((res) => setTimeout(res, time));
 	}
-
-	public isDev(userId: string | undefined): boolean {
-		return this.client.config.developers.indexOf(userId as string) > -1;
-	}
 }

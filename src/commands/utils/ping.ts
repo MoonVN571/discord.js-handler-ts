@@ -1,9 +1,9 @@
-import { Command } from "../../struct/Commands";
+import { CommandData } from "../../types";
 import Context from "../../struct/Context";
 
-export const data: Command = {
+export const data: CommandData = {
 	name: "ping",
-	description: "bot delay"
+	description: "độ trễ của bot"
 };
 
 export async function execute(ctx: Context) {

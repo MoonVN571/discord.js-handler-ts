@@ -1,7 +1,6 @@
 import {
 	CommandInteraction,
 	Message,
-	APIInteractionGuildMember,
 	Guild,
 	GuildMember,
 	User,
@@ -14,7 +13,7 @@ import { Bot } from "./Bot";
 import emojis from "../assets/emojis.json";
 import config from "../config.json";
 
-import { Utils } from "../functions/Utils";
+import { Utils, Commands } from "../functions";
 
 export default class Context {
 	public ctx: CommandInteraction | Message | AutocompleteInteraction;
@@ -27,19 +26,21 @@ export default class Context {
 	public author: User;
 	public channel: GuildBasedChannel;
 	public guild: Guild | null;
-	public member: APIInteractionGuildMember | GuildMember;
+	public member: GuildMember;
 	public user: ClientUser;
-	/* eslint-disable @typescript-eslint/no-explicit-any */
-	public args: any[] = [];
-	public msg: any;
+	public args: string[] = [];
+	public msg: Message;
 
 	public utils: Utils;
+	public cmds: Commands;
 
 	public readonly emotes = emojis;
 	public config = config;
 	public readonly color = config.color;
 
-	constructor(ctx: any, args: any[]) {
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+
+	constructor(ctx: any) {
 		this.ctx = ctx;
 		this.isInteraction = ctx instanceof CommandInteraction;
 		this.interaction = this.isInteraction ? ctx : null;
@@ -54,8 +55,9 @@ export default class Context {
 		this.user = ctx.client.user;
 
 		this.utils = this.client.utils;
+		this.cmds = this.client.cmds;
 
-		this.setArgs(args);
+		if (this.isInteraction) this.setArgs(this.cmds.getCmdData(this.interaction.options.data.slice()));
 	}
 
 	setArgs(args: any[]) {
@@ -82,13 +84,13 @@ export default class Context {
 		return new Promise((res) => {
 			const member = this.guild?.members.cache.get(userId);
 			if (member) res(member);
-			else this.guild?.members.fetch(userId as string).then(res).catch(() => res(undefined));
+			else this.guild?.members.fetch(userId).then(res).catch(() => res(undefined));
 		});
 	}
 
 	public async sendMessage(content: any) {
 		if (this.isInteraction) {
-			this.msg = this.interaction?.reply(this.handleContent(content));
+			this.msg = await this.interaction?.reply(this.handleContent(content));
 			return this.msg;
 		} else if (this.message) {
 			this.msg = await this.message.reply(this.handleContent(content));
@@ -121,7 +123,7 @@ export default class Context {
 		}
 	}
 
-	private handleContent(data: any): { content?: string, embeds?: any[], allowedMentions: { repliedUser: boolean } } {
+	private handleContent(data: any) {
 		if (typeof data === "string") {
 			return { content: data, allowedMentions: { repliedUser: false } };
 		}
