@@ -1,23 +1,18 @@
 import {
-	ApplicationCommandOption,
-	AutocompleteInteraction,
-	ButtonInteraction,
-	PermissionsString
+    AutocompleteInteraction,
+    ButtonInteraction,
+    ChatInputApplicationCommandData,
 } from "discord.js";
 import { Bot } from "./struct";
 import Context from "./struct/Context";
 
-export declare interface CommandData {
-    name: string;
-    description: string;
-    options?: ApplicationCommandOption[];
+export declare interface CommandData extends ChatInputApplicationCommandData {
     aliases?: string[];
     command?: {
         slash?: boolean;
         prefix?: boolean;
     };
     whitelist?: CommandWhitelist;
-    defaultMemberPermissions?: PermissionsString[];
     category?: string;
 }
 

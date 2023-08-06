@@ -31,7 +31,7 @@ export class Bot extends Client {
 		return await this.login(process.env.TOKEN);
 	}
 
-	public async loadCommands(): Promise<void> {
+	private loadCommands() {
 		const categories = readdirSync(`${this.dev ? "./src" : "./dist"}/commands`);
 		categories.forEach(category => {
 			const commands = readdirSync(`${this.dev ? "./src" : "./dist"}/commands/${category}`);
@@ -45,7 +45,7 @@ export class Bot extends Client {
 		});
 	}
 
-	public loadEvents(): void {
+	private loadEvents() {
 		readdirSync(`${this.dev ? "./src" : "./dist"}/events/Bot`).forEach(async event => {
 			const eventName = event.split(".")[0];
 			const data: Event = await import(`../events/Bot/${eventName}`);
