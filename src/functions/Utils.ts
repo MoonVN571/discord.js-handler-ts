@@ -1,4 +1,4 @@
-import { Bot } from "../struct/Bot";
+import { Bot } from "../structures";
 
 export class Utils {
 	public client: Bot;

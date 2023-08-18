@@ -1,7 +1,6 @@
 import { Message } from "discord.js";
-import { Bot } from "../../struct/Bot";
+import { Bot, Context } from "../../structures";
 import type { CommandOptions } from "../../types";
-import Context from "../../struct/Context";
 
 export async function execute(client: Bot, message: Message) {
 	if (message.author.bot) return;

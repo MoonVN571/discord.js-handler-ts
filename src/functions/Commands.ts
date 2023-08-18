@@ -1,10 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import { Bot } from "../struct/Bot";
-import Context from "../struct/Context";
-
 import { CommandOptions } from "../types";
+import { Bot, Context } from "../structures";
 import { CacheType, CommandInteractionOption } from "discord.js";
 
 export class Commands {
@@ -15,7 +10,7 @@ export class Commands {
 
 	public async canUserRunCommand(ctx: Context, cmd?: CommandOptions): Promise<boolean> {
 		const { whitelist } = cmd.data;
-		const isDeveloper = this.client.config.developers.indexOf(ctx.author.id) > -1;
+		const isDeveloper = this.client.config.developers.includes(ctx.author.id);
 		const isAdmin = isDeveloper || ctx.member.permissions.has("Administrator");
 
 		// No perm requirement
@@ -65,7 +60,6 @@ export class Commands {
 	private getSlashData(data: CommandInteractionOption<CacheType>[]) {
 		const result = data.reduce((accumulator: string, item) => {
 			accumulator += item.name;
-
 			if (item.options) {
 				item.options.forEach(option => {
 					accumulator += " " + option.name;

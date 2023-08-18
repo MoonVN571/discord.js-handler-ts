@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { CommandData } from "../../types";
-import Context from "../../struct/Context";
+import { Context } from "../../structures";
 
 export const data: CommandData = {
 	name: "eval",

@@ -7,7 +7,7 @@ import {
 	ChatInputCommandInteraction,
 	AutocompleteInteraction,
 	ClientUser,
-	GuildBasedChannel
+	TextChannel
 } from "discord.js";
 import { Bot } from "./Bot";
 import emojis from "../assets/emojis.json";
@@ -24,7 +24,7 @@ export default class Context {
 	public channelId: string;
 	public client: Bot;
 	public author: User;
-	public channel: GuildBasedChannel;
+	public channel: TextChannel;
 	public guild: Guild | null;
 	public member: GuildMember;
 	public user: ClientUser;

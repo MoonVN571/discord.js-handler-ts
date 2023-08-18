@@ -1,9 +1,6 @@
 import { Interaction } from "discord.js";
-import dotenv from "dotenv";
-import { Bot } from "../../struct/Bot";
+import { Bot, Context } from "../../structures";
 import { CommandOptions } from "../../types";
-import Context from "../../struct/Context";
-dotenv.config();
 
 export async function execute(client: Bot, interaction: Interaction) {
 	if (interaction.isAutocomplete()) {

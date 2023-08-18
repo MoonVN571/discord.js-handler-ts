@@ -4,12 +4,12 @@ dotenv.config();
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
 
-import { Logger } from "./";
+import { Logger } from ".";
 import config from "../config.json";
 import emojis from "../assets/emojis.json";
 
 import { CommandOptions, Event } from "../types";
-import { Utils, Commands } from "../functions/";
+import { Utils, Commands } from "../functions";
 
 export class Bot extends Client {
 	public commands: Collection<string, CommandOptions> = new Collection();

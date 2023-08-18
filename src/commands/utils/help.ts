@@ -1,4 +1,4 @@
-import Context from "../../struct/Context";
+import { Context } from "../../structures";
 import { readdirSync } from "fs";
 import { CommandData, CommandOptions } from "../../types";
 
