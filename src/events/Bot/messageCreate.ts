@@ -5,7 +5,7 @@ import type { CommandOptions } from "../../types";
 export async function execute(client: Bot, message: Message) {
 	if (message.author.bot) return;
 
-	const prefix = client.dev ? client.config.devPrefix : client.config.prefix;
+	const prefix = client.config.prefix;
 	if (!message.content.toLowerCase().startsWith(prefix)) {
 		return;
 	}
