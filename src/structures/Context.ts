@@ -9,11 +9,10 @@ import {
 	ClientUser,
 	TextChannel
 } from "discord.js";
-import { Bot } from "./Bot";
+import { Bot } from ".";
+import { Utils, Commands } from "../functions";
 import emojis from "../assets/emojis.json";
 import config from "../config.json";
-
-import { Utils, Commands } from "../functions";
 
 export default class Context {
 	public ctx: CommandInteraction | Message | AutocompleteInteraction;
