@@ -1,66 +1,38 @@
-import pkg, { SignaleOptions } from "signale";
-const { Signale } = pkg;
-const options: SignaleOptions = {
-	disabled: false,
-	interactive: false,
-	logLevel: "info"
-};
-export default class Logger extends Signale {
-	constructor() {
-		super({
-			...options,
-			types: {
-				info: {
-					badge: "ℹ",
-					color: "blue",
-					label: "info",
-				},
-				warn: {
-					badge: "⚠",
-					color: "yellow",
-					label: "warn",
-				},
-				error: {
-					badge: "✖",
-					color: "red",
-					label: "error",
-				},
-				debug: {
-					badge: "🐛",
-					color: "magenta",
-					label: "debug",
-				},
-				success: {
-					badge: "✔",
-					color: "green",
-					label: "success",
-				},
-				log: {
-					badge: "📝",
-					color: "white",
-					label: "log",
-				},
-				pause: {
-					badge: "⏸",
-					color: "yellow",
-					label: "pause",
-				},
-				start: {
-					badge: "▶",
-					color: "green",
-					label: "start",
-				},
-			},
-		});
+export class Logger {
+	constructor() { }
+
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+
+	public info(...message: any[]) {
+		this.log("INFO", ...message);
+	}
+
+	public start(...message: any[]) {
+		this.log("START", ...message);
+	}
+
+	public error(...message: any[]) {
+		this.log("ERROR", ...message);
+	}
+
+	public success(...message: any[]) {
+		this.log("SUCCESS", ...message);
+	}
+
+	private log(level: string, ...message: any[]) {
+		const now = new Date();
+		const utcOffset = now.getTimezoneOffset();
+
+		const vietnamTimezoneOffset = 7 * 60; // Vietnam timezone is UTC+7
+		const offsetMinutes = utcOffset + vietnamTimezoneOffset;
+
+		const vietnamTime = new Date(now.getTime() + offsetMinutes * 60 * 1000);
+		const pad = (n: number) => {
+			return (n < 10 ? "0" : "") + n;
+		};
+
+		const formatTime = `${pad(vietnamTime.getUTCHours())}:${pad(vietnamTime.getUTCMinutes())}:${pad(vietnamTime.getUTCSeconds())}`;
+		const formatDate = `${pad(vietnamTime.getUTCDate())}/${pad(vietnamTime.getUTCMonth() + 1)}/${vietnamTime.getUTCFullYear()}`;
+		console.log(`[${formatTime}] [${formatDate}] [${level}] ${message.join(" ")}`);
 	}
 }
-
-/**
- * Project: lavamusic
- * Author: Blacky
- * Company: Coders
- * Copyright (c) 2023. All rights reserved.
- * This code is the property of Coder and may not be reproduced or
- * modified without permission. For more information, contact us at
- * https://discord.gg/ns8CTk9J3e
- */
