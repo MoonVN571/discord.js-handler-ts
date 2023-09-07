@@ -2,6 +2,7 @@ import {
 	AutocompleteInteraction,
 	ButtonInteraction,
 	ChatInputApplicationCommandData,
+	ModalSubmitInteraction,
 } from "discord.js";
 import { Bot, Context } from "./structures";
 
@@ -21,12 +22,13 @@ export interface CommandWhitelist {
 }
 
 export declare interface CommandOptions {
-    data: CommandData,
-    execute?: (ctx: Context, args: string[]) => void,
-    autoComplete?: (interaction: AutocompleteInteraction) => void,
-    buttonRun?: (interaction: ButtonInteraction) => void
+    data: CommandData;
+    execute?: (ctx: Context, args: string[]) => void;
+    autoComplete?: (interaction: AutocompleteInteraction) => void;
+    buttonRun?: (interaction: ButtonInteraction) => void;
+    modalRun?: (interaction: ModalSubmitInteraction) => void;
 }
 
 export declare interface Event {
-    execute?: (client: Bot, ...args: string[]) => void
+    execute?: (client: Bot, ...args: string[]) => void;
 }

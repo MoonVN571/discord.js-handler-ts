@@ -14,6 +14,12 @@ export async function execute(client: Bot, interaction: Interaction) {
 		if (cmd) cmd.buttonRun(interaction);
 	}
 
+	if(interaction.isModalSubmit()) {
+		const cmdName = interaction.customId.split(".")[0];
+		const cmd = client.commands.get(cmdName);
+		if (cmd) cmd.modalRun(interaction);
+	}
+
 	if (interaction.isChatInputCommand()) {
 		const cmd = client.commands.get(interaction.commandName);
 		if (!cmd) return;
