@@ -39,7 +39,6 @@ export class Bot extends Client {
 				const cmdName = cmdFile.split(".")[0];
 				const cmd: CommandOptions = await import(`../commands/${category}/${cmdName}`);
 				cmd.data.category = category;
-				if (this.dev) cmd.data.name = `${cmdName}dev`;
 				this.commands.set(cmd.data.name, cmd);
 			});
 		});
