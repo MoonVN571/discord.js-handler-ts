@@ -6,7 +6,7 @@ import { Bot } from "../../structures";
 export async function execute(client: Bot) {
 	client.logger.start(`Logged in as ${client.user.tag}`);
 
-	client.application.commands.set(client.commands.map(cmd => cmd.data));
+	client.application.commands.set(client.commands.map(cmd => cmd.data).filter(cmd => !cmd.command?.prefix));
 
 	await mongoose.connect(process.env.MONGO_STRING).then(() => {
 		client.logger.start("Connected to MongoDB!");
