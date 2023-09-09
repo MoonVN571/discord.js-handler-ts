@@ -6,9 +6,8 @@ export async function execute(client: Bot, message: Message) {
 	if (message.author.bot) return;
 
 	const prefix = (client.dev ? "dev" : "") + client.config.prefix;
-	if (!message.content.toLowerCase().startsWith(prefix)) {
+	if (!message.content.toLowerCase().startsWith(prefix))
 		return;
-	}
 
 	const args = message.content.trim().slice(prefix.length).split(" ");
 	const cmdName = args.shift().toLowerCase();
