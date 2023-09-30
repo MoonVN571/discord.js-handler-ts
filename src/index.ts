@@ -12,7 +12,7 @@ const bot = new Bot({
 		status: "online",
 		activities: [{ type: ActivityType.Watching, name: "" }]
 	},
-	partials: [Partials.Message, Partials.Message, Partials.GuildMember, Partials.User],
+	partials: [Partials.Channel, Partials.Reaction, Partials.Message, Partials.GuildMember, Partials.ThreadMember, Partials.User],
 });
 
 bot.start();
