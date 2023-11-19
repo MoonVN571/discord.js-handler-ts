@@ -11,7 +11,7 @@ export async function execute(ctx: Context) {
 	const fields: { name: string, value: string }[] = [];
 	await ctx.sendDeferMessage(false);
 
-	await Promise.all(readdirSync(`./dist/commands`).map(async (category: string) => {
+	await Promise.all(readdirSync("./dist/commands").map(async (category: string) => {
 		const cmdList: string[] = [];
 		await Promise.all(readdirSync(`./dist/commands/${category}`).map(async (cmdName: string) => {
 			const cmd: CommandOptions = await import(`../${category}/${cmdName.split(".")[0]}`);

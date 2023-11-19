@@ -32,7 +32,7 @@ export class Bot extends Client {
 	}
 
 	private loadCommands() {
-		const categories = readdirSync(`./dist/commands`);
+		const categories = readdirSync("./dist/commands");
 		categories.forEach(category => {
 			const commands = readdirSync(`./dist/commands/${category}`);
 			commands.forEach(async cmdFile => {
@@ -45,7 +45,7 @@ export class Bot extends Client {
 	}
 
 	private loadEvents() {
-		readdirSync(`./dist/events/Bot`).forEach(async event => {
+		readdirSync("./dist/events/Bot").forEach(async event => {
 			const eventName = event.split(".")[0];
 			const data: Event = await import(`../events/Bot/${eventName}`);
 			this.on(eventName, (...p) => data.execute(this, ...p));
