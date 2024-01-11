@@ -51,6 +51,11 @@ export class Bot extends Client {
 			this.logger.error(error);
 		});
 
+		process.on('unhandledRejection', (reason, promise) => {
+			this.logger.error(promise);
+			this.logger.error(reason);
+		});
+
 		return await this.login(process.env.TOKEN);
 	}
 
