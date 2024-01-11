@@ -1,8 +1,8 @@
-import { Bot } from "../structures";
+import { DiscordBot } from "../structures";
 
 export class Utils {
-	public client: Bot;
-	constructor(client: Bot) {
+	public client: DiscordBot;
+	constructor(client: DiscordBot) {
 		this.client = client;
 	}
 

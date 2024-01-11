@@ -1,7 +1,7 @@
 import { ActivityType, GatewayIntentBits, Partials } from "discord.js";
-import { Bot } from "./structures";
+import { DiscordBot } from "./structures";
 
-const bot = new Bot({
+const bot = new DiscordBot({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,

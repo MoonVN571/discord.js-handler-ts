@@ -12,7 +12,7 @@ import { CommandOptions, Event } from "../types";
 import { Utils, Commands } from "../functions";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-export class Bot extends Client {
+export class DiscordBot extends Client {
 	public commands: Collection<string, CommandOptions> = new Collection();
 	public logger: winston.Logger;
 
@@ -34,11 +34,11 @@ export class Bot extends Client {
 			),
 			transports: [
 				new DailyRotateFile({
-					filename: 'logs/log-%DATE%.log',
-					datePattern: 'DD-MM-YYYY',
+					filename: "logs/log-%DATE%.log",
+					datePattern: "DD-MM-YYYY",
 					zippedArchive: true,
-					maxSize: '20m',
-					maxFiles: '14d',
+					maxSize: "20m",
+					maxFiles: "14d",
 				}),
 				new winston.transports.Console(),
 			]
@@ -56,7 +56,7 @@ export class Bot extends Client {
 			this.logger.error(error);
 		});
 
-		process.on('unhandledRejection', (reason, promise) => {
+		process.on("unhandledRejection", (reason, promise) => {
 			this.logger.error(promise);
 			this.logger.error(reason);
 		});

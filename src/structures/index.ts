@@ -1,3 +1,3 @@
-import { Bot } from "./Bot";
+import { DiscordBot } from "./DiscordBot";
 import Context from "./Context";
-export { Bot, Context };
+export { DiscordBot, Context };

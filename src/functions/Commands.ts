@@ -1,10 +1,10 @@
 import { CommandOptions } from "../types";
-import { Bot, Context } from "../structures";
+import { DiscordBot, Context } from "../structures";
 import { CacheType, CommandInteractionOption } from "discord.js";
 
 export class Commands {
-	public client: Bot;
-	constructor(client: Bot) {
+	public client: DiscordBot;
+	constructor(client: DiscordBot) {
 		this.client = client;
 	}
 

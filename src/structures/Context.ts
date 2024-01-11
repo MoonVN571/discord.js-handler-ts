@@ -9,7 +9,7 @@ import {
 	ClientUser,
 	TextChannel
 } from "discord.js";
-import { Bot } from ".";
+import { DiscordBot } from ".";
 import { Utils, Commands } from "../functions";
 import emojis from "../assets/emojis.json";
 import config from "../config.json";
@@ -21,7 +21,7 @@ export default class Context {
 	public message: Message | null;
 	public id: string;
 	public channelId: string;
-	public client: Bot;
+	public client: DiscordBot;
 	public author: User;
 	public channel: TextChannel;
 	public guild: Guild | null;

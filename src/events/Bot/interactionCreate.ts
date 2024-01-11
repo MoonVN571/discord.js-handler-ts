@@ -1,8 +1,8 @@
 import { Interaction } from "discord.js";
-import { Bot, Context } from "../../structures";
+import { DiscordBot, Context } from "../../structures";
 import { CommandOptions } from "../../types";
 
-export async function execute(client: Bot, interaction: Interaction) {
+export async function execute(client: DiscordBot, interaction: Interaction) {
 	if (interaction.isAutocomplete()) {
 		const cmd: CommandOptions = client.commands.get(interaction.commandName);
 		if (cmd) cmd.autoComplete(interaction);
@@ -14,7 +14,7 @@ export async function execute(client: Bot, interaction: Interaction) {
 		if (cmd) cmd.buttonRun(interaction);
 	}
 
-	if(interaction.isModalSubmit()) {
+	if (interaction.isModalSubmit()) {
 		const cmdName = interaction.customId.split(".")[0];
 		const cmd = client.commands.get(cmdName);
 		if (cmd) cmd.modalRun(interaction);

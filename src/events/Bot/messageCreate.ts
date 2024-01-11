@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { Bot, Context } from "../../structures";
+import { DiscordBot, Context } from "../../structures";
 import type { CommandOptions } from "../../types";
 
-export async function execute(client: Bot, message: Message) {
+export async function execute(client: DiscordBot, message: Message) {
 	if (message.author.bot) return;
 
 	const prefix = client.config.prefix;

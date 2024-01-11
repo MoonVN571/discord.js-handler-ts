@@ -4,7 +4,7 @@ import {
 	ChatInputApplicationCommandData,
 	ModalSubmitInteraction,
 } from "discord.js";
-import { Bot, Context } from "./structures";
+import { DiscordBot, Context } from "./structures";
 
 export declare interface CommandData extends ChatInputApplicationCommandData {
     aliases?: string[];
@@ -30,5 +30,5 @@ export declare interface CommandOptions {
 }
 
 export declare interface Event {
-    execute?: (client: Bot, ...args: string[]) => void;
+    execute?: (client: DiscordBot, ...args: string[]) => void;
 }
