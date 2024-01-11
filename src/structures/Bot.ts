@@ -3,17 +3,18 @@ dotenv.config();
 
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
+import winston from "winston";
 
-import { Logger } from ".";
 import config from "../config.json";
 import emojis from "../assets/emojis.json";
 
 import { CommandOptions, Event } from "../types";
 import { Utils, Commands } from "../functions";
+import DailyRotateFile from "winston-daily-rotate-file";
 
 export class Bot extends Client {
 	public commands: Collection<string, CommandOptions> = new Collection();
-	public logger: Logger = new Logger();
+	public logger: winston.Logger;
 
 	public dev = process.env.NODE_ENV == "development";
 	public readonly emotes = emojis;
@@ -23,11 +24,33 @@ export class Bot extends Client {
 	public cmds = new Commands(this);
 
 	public async start(): Promise<string> {
+		const { timestamp, align, printf } = winston.format;
+		this.logger = winston.createLogger({
+			level: "debug",
+			format: winston.format.combine(
+				timestamp({ format: "DD-MM-YYYY hh:mm:ss.SSS A" }),
+				align(),
+				printf(info => `${info.timestamp} [${info.level}] ${info.message}`),
+			),
+			transports: [
+				new DailyRotateFile({
+					filename: 'logs/log-%DATE%.log',
+					datePattern: 'DD-MM-YYYY',
+					zippedArchive: true,
+					maxSize: '20m',
+					maxFiles: '14d',
+				}),
+				new winston.transports.Console(),
+			]
+		});
+
 		this.loadCommands();
 		this.loadEvents();
+
 		process.on("uncaughtException", (error) => {
 			this.logger.error(error);
 		});
+
 		return await this.login(process.env.TOKEN);
 	}
 
