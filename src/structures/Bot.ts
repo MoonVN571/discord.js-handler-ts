@@ -46,7 +46,12 @@ export class Bot extends Client {
 
 		this.loadCommands();
 		this.loadEvents();
+		this.antiCrash();
 
+		return await this.login(process.env.TOKEN);
+	}
+
+	private antiCrash() {
 		process.on("uncaughtException", (error) => {
 			this.logger.error(error);
 		});
@@ -55,8 +60,6 @@ export class Bot extends Client {
 			this.logger.error(promise);
 			this.logger.error(reason);
 		});
-
-		return await this.login(process.env.TOKEN);
 	}
 
 	private loadCommands() {
