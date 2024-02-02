@@ -5,7 +5,6 @@ import {
 	GuildMember,
 	User,
 	ChatInputCommandInteraction,
-	AutocompleteInteraction,
 	ClientUser,
 	TextChannel
 } from "discord.js";
@@ -15,12 +14,10 @@ import emojis from "../assets/emojis.json";
 import config from "../config.json";
 
 export default class Context {
-	public ctx: CommandInteraction | Message | AutocompleteInteraction;
+	public ctx: CommandInteraction | Message;
 	public isInteraction: boolean;
 	public interaction: ChatInputCommandInteraction | null;
 	public message: Message | null;
-	public id: string;
-	public channelId: string;
 	public client: DiscordBot;
 	public author: User;
 	public channel: TextChannel;
@@ -44,8 +41,6 @@ export default class Context {
 		this.isInteraction = ctx instanceof CommandInteraction;
 		this.interaction = this.isInteraction ? ctx : null;
 		this.message = this.isInteraction ? null : ctx;
-		this.id = ctx.id;
-		this.channelId = ctx.channelId;
 		this.client = ctx.client;
 		this.author = ctx instanceof Message ? ctx.author : ctx.user;
 		this.channel = ctx.channel;
