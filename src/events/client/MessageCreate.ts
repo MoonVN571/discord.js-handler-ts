@@ -1,6 +1,10 @@
-import { Message } from "discord.js";
+import { Events, Message } from "discord.js";
 import { DiscordBot, Context } from "../../structures";
-import type { CommandOptions } from "../../types";
+import type { CommandOptions, EventOptions } from "../../types";
+
+export const data: EventOptions = {
+	name: Events.MessageCreate,
+};
 
 export async function execute(client: DiscordBot, message: Message) {
 	if (message.author.bot) return;

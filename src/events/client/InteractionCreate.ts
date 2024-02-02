@@ -1,6 +1,10 @@
-import { Interaction } from "discord.js";
+import { Events, Interaction } from "discord.js";
 import { DiscordBot, Context } from "../../structures";
-import { CommandOptions } from "../../types";
+import { CommandOptions, EventOptions } from "../../types";
+
+export const data: EventOptions = {
+	name: Events.InteractionCreate,
+};
 
 export async function execute(client: DiscordBot, interaction: Interaction) {
 	if (interaction.isAutocomplete()) {

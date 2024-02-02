@@ -29,6 +29,11 @@ export declare interface CommandOptions {
     modalRun?: (interaction: ModalSubmitInteraction) => void;
 }
 
+export declare interface EventOptions {
+    name: string;
+}
+
 export declare interface Event {
+    data: EventOptions;
     execute?: (client: DiscordBot, ...args: string[]) => void;
 }

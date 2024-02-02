@@ -76,10 +76,11 @@ export class DiscordBot extends Client {
 	}
 
 	private loadEvents() {
-		readdirSync("./dist/events/Bot").forEach(async event => {
-			const eventName = event.split(".")[0];
-			const data: Event = await import(`../events/Bot/${eventName}`);
-			this.on(eventName, (...p) => data.execute(this, ...p));
+		readdirSync("./dist/events/client").forEach(async eventFile => {
+			const eventName = eventFile.split(".")[0];
+			const event: Event = await import(`../events/client/${eventName}`);
+			if (!event) return this.logger.warn("Event " + eventName + " not found any data");
+			this.on(event.data.name, (...p) => event.execute(this, ...p));
 		});
 	}
 }
