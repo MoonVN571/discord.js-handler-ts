@@ -1,6 +1,6 @@
 import { Context } from "../../structures";
-import { readdirSync } from "fs";
 import { CommandData, CommandOptions } from "../../types";
+import { EmbedField } from "discord.js";
 
 export const data: CommandData = {
 	name: "help",
@@ -8,21 +8,30 @@ export const data: CommandData = {
 };
 
 export async function execute(ctx: Context) {
-	const fields: { name: string, value: string }[] = [];
-	await ctx.sendDeferMessage(false);
+	function sortCommandsByCategory(commands: CommandOptions[]): Record<string, string[]> {
+		const sortedCommands: Record<string, string[]> = {};
 
-	await Promise.all(readdirSync("./dist/commands").map(async (category: string) => {
-		const cmdList: string[] = [];
-		await Promise.all(readdirSync(`./dist/commands/${category}`).map(async (cmdName: string) => {
-			const cmd: CommandOptions = await import(`../${category}/${cmdName.split(".")[0]}`);
-			cmdList.push(cmd.data.name);
-		}));
-		if (cmdList.length === 0) return;
-		fields.push({
-			name: category.charAt(0).toLocaleUpperCase() + category.slice(1),
-			value: cmdList.join(", ")
+		commands.forEach((command) => {
+			const { name, category } = command.data;
+
+			if (!sortedCommands[category])
+				sortedCommands[category] = [];
+
+			sortedCommands[category].push(name);
 		});
-	}));
+
+		return sortedCommands;
+	}
+
+	const fields: EmbedField[] = [];
+	const cmds = sortCommandsByCategory(ctx.client.commands.map(cmd => cmd));
+
+	for (const category in cmds)
+		fields.push({
+			name: category.charAt(0).toUpperCase() + category.slice(1),
+			value: `\`${cmds[category].join("`, \`")}\``,
+			inline: false,
+		})
 
 	ctx.sendFollowUp({
 		embeds: [{
