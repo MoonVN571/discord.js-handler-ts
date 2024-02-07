@@ -70,7 +70,7 @@ export class Commands {
 						if (nestedOption.value) accumulator += ":" + nestedOption.value;
 					});
 				});
-			} else if (item.value) accumulator += ":" + item.value;
+			} else if (item.value || !isNaN(+item.value)) accumulator += ":" + item.value;
 			accumulator += " ";
 			return accumulator;
 		}, "");
