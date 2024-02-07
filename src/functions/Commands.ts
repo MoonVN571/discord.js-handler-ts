@@ -33,7 +33,7 @@ export class Commands {
 		return false;
 	}
 
-	public async sendCmdLog(ctx: Context, msg?: string): Promise<void> {
+	public async sendCmdLog(ctx: Context, msg?: string) {
 		if (!msg) msg = `/${ctx.interaction.commandName} ${this.getSlashData(ctx.interaction.options.data.slice())}`;
 		const username = `${ctx.author.displayName}`;
 		this.client.logger.info(`[${ctx.guild?.name}] [${ctx.channel.name}] - ${username} (${ctx.author?.id}) : ${msg}`);

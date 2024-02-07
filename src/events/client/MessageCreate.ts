@@ -16,8 +16,8 @@ export async function execute(client: DiscordBot, message: Message) {
 	const args = message.content.trim().slice(prefix.length).split(/ +/);
 	const cmdName = args.shift().toLowerCase();
 
-	const cmd: CommandOptions = client.commands.get(cmdName)
-		|| client.commands.find((cmd: CommandOptions) => cmd.data.aliases && cmd.data.aliases.indexOf(cmdName) > -1);
+	const cmd = client.commands.get(cmdName)
+		|| client.commands.find((cmd) => cmd.data.aliases?.indexOf(cmdName) > -1);
 	if (!cmd) return;
 
 	const ctx = new Context(message);
