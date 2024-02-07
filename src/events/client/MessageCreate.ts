@@ -1,6 +1,6 @@
 import { Events, Message } from "discord.js";
 import { DiscordBot, Context } from "../../structures";
-import type { CommandOptions, EventOptions } from "../../types";
+import type { EventOptions } from "../../types";
 
 export const data: EventOptions = {
 	name: Events.MessageCreate,

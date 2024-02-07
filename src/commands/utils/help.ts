@@ -29,9 +29,9 @@ export async function execute(ctx: Context) {
 	for (const category in cmds)
 		fields.push({
 			name: category.charAt(0).toUpperCase() + category.slice(1),
-			value: `\`${cmds[category].join("`, \`")}\``,
+			value: `\`${cmds[category].join("`, `")}\``,
 			inline: false,
-		})
+		});
 
 	ctx.sendFollowUp({
 		embeds: [{
