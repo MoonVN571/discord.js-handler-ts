@@ -24,9 +24,9 @@ export interface CommandWhitelist {
 export declare interface CommandOptions {
     data: CommandData;
     execute?: (ctx: Context, args: string[]) => void;
-    autoComplete?: (interaction: AutocompleteInteraction) => void;
-    buttonRun?: (interaction: ButtonInteraction) => void;
-    modalRun?: (interaction: ModalSubmitInteraction) => void;
+    autocompleteExecute?: (interaction: AutocompleteInteraction) => void;
+    buttonExecute?: (interaction: ButtonInteraction) => void;
+    modalExecute?: (interaction: ModalSubmitInteraction) => void;
 }
 
 export declare interface EventOptions {
