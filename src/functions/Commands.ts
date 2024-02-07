@@ -40,7 +40,7 @@ export class Commands {
 	}
 
 	public getCmdData(data: CommandInteractionOption<CacheType>[]) {
-		const result = data.reduce((accumulator: string, item) => {
+		const result = data.reduce((accumulator, item) => {
 			accumulator += item.name;
 			if (item.options) {
 				item.options.forEach(option => {
