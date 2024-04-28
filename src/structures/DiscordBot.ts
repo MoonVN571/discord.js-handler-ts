@@ -28,6 +28,7 @@ export class DiscordBot extends Client {
 		this.logger = winston.createLogger({
 			level: "debug",
 			format: winston.format.combine(
+				winston.format.errors({ stack: true }),
 				timestamp({ format: "DD-MM-YYYY hh:mm:ss.SSS A" }),
 				align(),
 				printf(info => `${info.timestamp} [${info.level}] ${info.message}`),
