@@ -24,14 +24,21 @@ export class DiscordBot extends Client {
 	public cmds = new Commands(this);
 
 	public async start(): Promise<string> {
-		const { timestamp, align, printf } = winston.format;
+		const { timestamp, align } = winston.format;
+		const print = winston.format.printf((info) => {
+			const log = `${info.timestamp} [${info.level}] ${info.message}`;
+
+			return info.stack
+				? `${log}\n${info.stack}`
+				: log;
+		});
 		this.logger = winston.createLogger({
 			level: "debug",
 			format: winston.format.combine(
 				winston.format.errors({ stack: true }),
 				timestamp({ format: "DD-MM-YYYY hh:mm:ss.SSS A" }),
 				align(),
-				printf(info => `${info.timestamp} [${info.level}] ${info.message}`),
+				print,
 			),
 			transports: [
 				new DailyRotateFile({
