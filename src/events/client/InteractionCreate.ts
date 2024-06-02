@@ -9,7 +9,7 @@ export const data: EventOptions = {
 export async function execute(client: DiscordBot, interaction: Interaction) {
 	if (interaction.isAutocomplete()) {
 		const cmd: CommandOptions = client.commands.get(interaction.commandName);
-		if (cmd) cmd.autocompleteExecute(interaction);
+		if (cmd) cmd.autoCompleteExecute(interaction);
 	}
 
 	if (interaction.isButton()) {
