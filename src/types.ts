@@ -1,9 +1,4 @@
-import {
-	AutocompleteInteraction,
-	ButtonInteraction,
-	ChatInputApplicationCommandData,
-	ModalSubmitInteraction,
-} from "discord.js";
+import { AutocompleteInteraction, ButtonInteraction, ChatInputApplicationCommandData, ModalSubmitInteraction, } from "discord.js";
 import { DiscordBot, Context } from "./structures";
 
 export declare interface CommandData extends ChatInputApplicationCommandData {
