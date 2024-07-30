@@ -32,6 +32,20 @@ export class DiscordBot extends Client {
 				? `${log}\n${info.stack}`
 				: log;
 		});
+		const transports: winston.transport[] = [
+			new winston.transports.Console(),
+		];
+		if (process.env.NODE_ENV !== 'development') {
+			transports.push(
+				new DailyRotateFile({
+					filename: "logs/log-%DATE%.log",
+					datePattern: "DD-MM-YYYY",
+					zippedArchive: true,
+					maxSize: "20m",
+					maxFiles: "14d",
+				})
+			);
+		}
 		this.logger = winston.createLogger({
 			level: "debug",
 			format: winston.format.combine(
@@ -40,16 +54,7 @@ export class DiscordBot extends Client {
 				align(),
 				print,
 			),
-			transports: [
-				new DailyRotateFile({
-					filename: "logs/log-%DATE%.log",
-					datePattern: "DD-MM-YYYY",
-					zippedArchive: true,
-					maxSize: "20m",
-					maxFiles: "14d",
-				}),
-				new winston.transports.Console(),
-			]
+			transports,
 		});
 
 		this.loadCommands();
