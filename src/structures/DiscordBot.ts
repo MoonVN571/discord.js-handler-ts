@@ -35,7 +35,7 @@ export class DiscordBot extends Client {
 		const transports: winston.transport[] = [
 			new winston.transports.Console(),
 		];
-		if (process.env.NODE_ENV !== 'development') {
+		if (process.env.NODE_ENV !== "development") {
 			transports.push(
 				new DailyRotateFile({
 					filename: "logs/log-%DATE%.log",
