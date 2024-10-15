@@ -1,20 +1,28 @@
 import dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
-import { DiscordBot } from "../../structures";
 import { Events } from "discord.js";
-import { EventOptions } from "../../types";
+import { DiscordBot, Event } from "../../structures";
 
-export const data: EventOptions = {
-	name: Events.ClientReady,
-};
+export default class Ready extends Event {
+	public client: DiscordBot;
 
-export async function execute(client: DiscordBot) {
-	client.logger.info(`Logged in as ${client.user.tag}`);
+	constructor(client: DiscordBot) {
+		super(client, {
+			name: Events.ClientReady,
+			once: true,
+		});
+		this.client = client;
+	}
 
-	client.application.commands.set(client.commands.map(cmd => cmd.data).filter(cmd => !cmd.command?.prefix));
+	async execute(client: DiscordBot) {
+		client.logger.info(`Logged in as ${client.user.tag}`);
 
-	await mongoose.connect(process.env.MONGO_STRING).then(() => {
-		client.logger.info("Connected to MongoDB!");
-	});
+		const commands = client.commands.filter(cmd => !cmd.cmdType?.prefix).map(cmd => cmd.options);
+		this.client.application.commands.set(commands);
+
+		await mongoose.connect(process.env.MONGO_STRING).then(() => {
+			client.logger.info("Connected to MongoDB!");
+		});
+	}
 }

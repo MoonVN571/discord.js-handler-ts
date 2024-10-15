@@ -8,12 +8,13 @@ import winston from "winston";
 import config from "../config.json";
 import emojis from "../assets/emojis.json";
 
-import { CommandOptions, Event } from "../types";
 import { Utils, Commands } from "../functions";
 import DailyRotateFile from "winston-daily-rotate-file";
+import Command from "./Command";
+import { Event } from ".";
 
-export class DiscordBot extends Client {
-	public commands: Collection<string, CommandOptions> = new Collection();
+export default class DiscordBot extends Client {
+	public commands: Collection<string, Command> = new Collection();
 	public logger: winston.Logger;
 
 	public dev = process.env.NODE_ENV == "development";
@@ -57,8 +58,8 @@ export class DiscordBot extends Client {
 			transports,
 		});
 
-		this.loadCommands();
-		this.loadEvents();
+		await this.loadCommands();
+		await this.loadEvents();
 		this.antiCrash();
 
 		return await this.login(process.env.TOKEN);
@@ -75,26 +76,33 @@ export class DiscordBot extends Client {
 		});
 	}
 
-	private loadCommands() {
+	private async loadCommands() {
 		const categories = readdirSync("./dist/commands");
-		categories.forEach(category => {
+		for (const category of categories) {
 			const commands = readdirSync(`./dist/commands/${category}`);
-			commands.forEach(async cmdFile => {
+			for (const cmdFile of commands) {
 				const cmdName = cmdFile.split(".")[0];
-				const cmd: CommandOptions = await import(`../commands/${category}/${cmdName}.js`);
-				cmd.data.category = category;
-				this.commands.set(cmd.data.name, cmd);
-			});
-		});
+				const cmdStruct = await import(`../commands/${category}/${cmdName}.js`);
+				const cmd = new cmdStruct.default(this) as Command;
+
+				cmd.category = category;
+				this.commands.set(cmd.name, cmd);
+			}
+		}
 	}
 
-	private loadEvents() {
+	private async loadEvents() {
 		const events = readdirSync("./dist/events/client");
-		events.forEach(async eventFile => {
+		for (const eventFile of events) {
 			const eventName = eventFile.split(".")[0];
-			const event: Event = await import(`../events/client/${eventName}.js`);
-			if (!event) return this.logger.warn("Event " + eventName + " not found any data");
-			this.on(event.data.name, (...p) => event.execute(this, ...p));
-		});
+			const eventStruct = await import(`../events/client/${eventName}.js`);
+			const event = new eventStruct.default(this) as Event;
+
+			if (!event) {
+				this.logger.warn("Event " + eventName + " not found any data");
+			} else {
+				event.register(this);
+			}
+		}
 	}
 }

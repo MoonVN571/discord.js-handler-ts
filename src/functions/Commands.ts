@@ -1,5 +1,4 @@
-import { CommandOptions } from "../types";
-import { DiscordBot, Context } from "../structures";
+import { DiscordBot, Context, Command } from "../structures";
 import { CacheType, CommandInteractionOption } from "discord.js";
 
 export class Commands {
@@ -8,8 +7,8 @@ export class Commands {
 		this.client = client;
 	}
 
-	public async canUserRunCommand(ctx: Context, cmd?: CommandOptions): Promise<boolean> {
-		const { whitelist } = cmd.data;
+	public async canUserRunCommand(ctx: Context, cmd?: Command): Promise<boolean> {
+		const { whitelist } = cmd ;
 		const isDeveloper = this.client.config.developers.includes(ctx.author.id);
 		const isAdmin = isDeveloper || ctx.member.permissions.has("Administrator");
 

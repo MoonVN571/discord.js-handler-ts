@@ -1,3 +1,6 @@
-import { DiscordBot } from "./DiscordBot";
+import DiscordBot from "./DiscordBot";
 import Context from "./Context";
-export { DiscordBot, Context };
+import Command from "./Command";
+import Event from "./Event";
+
+export { DiscordBot, Context,Command,Event };
