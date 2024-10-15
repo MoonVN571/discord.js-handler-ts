@@ -6,7 +6,12 @@ import {
 	User,
 	ChatInputCommandInteraction,
 	ClientUser,
-	TextChannel
+	TextChannel,
+	InteractionReplyOptions,
+	MessageCreateOptions,
+	MessagePayload,
+	MessageEditOptions,
+	InteractionEditReplyOptions
 } from "discord.js";
 import { DiscordBot } from ".";
 import { Utils, Commands } from "../functions";
@@ -82,7 +87,9 @@ export default class Context {
 		});
 	}
 
-	public async sendMessage(content: any) {
+	public async sendMessage(
+		content: string | MessagePayload | MessageCreateOptions | InteractionReplyOptions,
+	) {
 		if (this.isInteraction) {
 			this.msg = await this.interaction?.reply(this.handleContent(content));
 			return this.msg;
@@ -92,7 +99,9 @@ export default class Context {
 		}
 	}
 
-	public async editMessage(content: any) {
+	public async editMessage(
+		content: string | MessagePayload | InteractionEditReplyOptions | MessageEditOptions,
+	) {
 		if (this.isInteraction) {
 			if (this.msg) this.msg = await this.interaction?.editReply(this.handleContent(content));
 			return this.msg;
@@ -109,9 +118,13 @@ export default class Context {
 		}
 	}
 
-	public async sendFollowUp(content: any) {
+	public async sendFollowUp(
+		content: string | MessagePayload | MessageCreateOptions | InteractionReplyOptions,
+	) {
 		if (this.isInteraction) {
-			await this.interaction?.followUp(content);
+			if (typeof content === "string" || isInteractionReplyOptions(content)) {
+				await this.interaction?.followUp(content);
+			}
 		} else if (this.message) {
 			this.msg = await this.message.reply(this.handleContent(content));
 		}
@@ -134,4 +147,8 @@ export default class Context {
 
 		return false;
 	}
+}
+
+function isInteractionReplyOptions(content: any): content is InteractionReplyOptions {
+	return content instanceof Object;
 }
