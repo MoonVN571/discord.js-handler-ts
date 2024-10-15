@@ -40,6 +40,7 @@ export default [
 			semi: ["error", "always"],
 			"@typescript-eslint/no-unused-expressions": "off",
 			"@typescript-eslint/no-require-import": "off",
+			"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
 		},
 	},
 	{
